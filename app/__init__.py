@@ -5,7 +5,7 @@ from flask import Flask
 app = Flask(__name__)
 
 # Import assets, models, routes, etc.
-from . import routes
+from .modules import France, World
 
 # Run the application (server).
 if __name__ == 'main':
