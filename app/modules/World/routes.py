@@ -1,55 +1,52 @@
 from flask import Flask, Blueprint
 from flask_restplus import Api, Namespace, Resource
 from app import api
+from .services import get_all_data_panda, get_all_data_by_category_panda, get_information_country
 
 
 world_routes = Blueprint('world', __name__, url_prefix='/world')
-ns_books = api.namespace('World', description = "Books operations")
+world_routes_api = api.namespace('World', description = "JHU resource")
 
 
-@ns_books.route("/recovered/")
+@world_routes_api.route("/")
+class List(Resource):
+    def get(self):
+        """
+        returns all data of the countries
+        """
+        return get_all_data_panda()
+
+@world_routes_api.route("/recovered/<country_code>")
 class RecoveredList(Resource):
-    def get(self):
+    def get(self, country_code):
         """
-        returns a list of books
+        returns the recovered history of a country
         """
-        return {"response": 'test data'}
+        return get_all_data_by_category_panda('recovered', country_code)
 
-@ns_books.route("/death/")
+
+@world_routes_api.route("/death/<country_code>")
 class DeathList(Resource):
+    def get(self, country_code):
+        """
+        returns the death history of a country
+        """
+        return get_all_data_by_category_panda('deaths', country_code)
+
+
+@world_routes_api.route("/confirmed/<country_code>")
+class ConfirmedList(Resource):
+    def get(self, country_code):
+        """
+        returns the confirmed history of a country
+        """
+        return get_all_data_by_category_panda('confirmed', country_code)
+
+
+@world_routes_api.route("/informations/")
+class InformationList(Resource):
     def get(self):
         """
         returns a list of books
         """
-        return {"response": 'test data'}
-    
-
-@world_routes.route('/recovered')
-def world_recovered():
-    """
-    Get the recovered case in the world
-    """
-    return 'hello world'
-
-
-@world_routes.route('/death')
-def world_death():
-    """
-    Get the recovered case in the world
-    """
-    return 'hello world'
-
-
-@world_routes.route('/confirmed')
-def world_confirmed():
-    """
-    Get the recovered case in the world
-    """
-    return 'hello world'
-
-@world_routes.route('/active')
-def word_active():
-    """
-    Get the recovered case in the world
-    """
-    return 'hello world'
+        return get_information_country()

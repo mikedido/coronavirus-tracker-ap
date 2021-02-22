@@ -13,7 +13,7 @@ api = Api(app, version='1.0',
           contact='Mahdi Gueffaz')
 
 # Import assets, models, routes, etc.
-from .modules import France, World
+from .modules import France, World, US
 
 # Run the application (server).
 if __name__ == 'main':
