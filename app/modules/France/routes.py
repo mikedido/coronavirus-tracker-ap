@@ -3,7 +3,7 @@ from flask_restplus import Api, Namespace, Resource
 from app import api
 from .test import Request_data_vaccination
 import json
-from .services import get_data
+from .services import get_data, get_data_depistage, get_data_vaccination
 
 
 france_routes = Blueprint('france', __name__, url_prefix='/france')
@@ -43,12 +43,13 @@ class vaccinationList(Resource):
     def get(self):
         """
         """
-        return {"response": 'test data'}
+        return get_data_vaccination()
 
 
 @france_routes_api.route("/depistage")
 class DepistageList(Resource):
     def get(self):
         """
+        Get all the data depistages
         """
-        return {"response": 'test data'}
+        return get_data_depistage()

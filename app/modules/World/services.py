@@ -16,7 +16,7 @@ def get_all_data_panda():
     """
     Get all the data
     """
-    concerned_columns = ['Country_Region','Confirmed', 'Deaths', 'Recovered', 'Active']
+    concerned_columns = ['Province_State', 'Country_Region','Confirmed', 'Deaths', 'Recovered', 'Active', 'Incident_Rate', 'Case_Fatality_Ratio']
     result = pd.DataFrame(request.get_data_daily_reports(), columns=concerned_columns)
     
     return json.loads(result.to_json(orient="index"))
@@ -28,9 +28,7 @@ def get_all_data_by_category_panda(category, country_code):
     """
     result = pd.DataFrame(request.get_data_time_series(category))
     rows = result.loc[result['Country/Region'] == countrycodes.country_name(country_code.upper())]
-
-    #organized the row
-
+    
     return json.loads(rows.to_json(orient="index"))
     
     
@@ -41,13 +39,15 @@ def get_information_country():
     """
     concerned_columns = ['Country_Region', 'iso2', 'Province_State', 'Lat', 'Long_', 'Population']
     result = pd.DataFrame(request.get_data_info_country(), columns=concerned_columns)
-    print(result)
 
     return json.loads(result.to_json(orient='index'))
 
 
 
 
+
+
+#legacy
 @cached(cache=TTLCache(maxsize=1024, ttl=3600))
 def get_all_data_by_category(category):
     """
